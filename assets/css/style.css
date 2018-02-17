@@ -1,0 +1,17 @@
+#header{
+    position:fixed;
+    width:100%;
+    height:40px;
+    margin:0px;
+    padding:0px;
+    line-height:40px;
+    text-align: center;
+    top:0px;
+    background-color:white;
+    z-index:-1;
+}
+
+body{
+     /* background-image: url('https://static.pexels.com/photos/220201/pexels-photo-220201.jpeg'); */
+}
+

@@ -8,23 +8,41 @@ var gameNumber = 0;
 var correctGuesses = 0;
 var incorrectGuesses = 0;
 var intervalId;
-var initialTime = 40;
+var initialTime = 30;
 var userGuess = "";
 var clockRunning = false;
 var questionAssign = [];
 
 var questionBank = [
     { 
-    question: "Who leads SpaceX?",
-    answerChoices: ["Elon Musk", "Michael Jackson"],
-    userAnswer:0,
-    image: "https://cdn.cnn.com/cnnnext/dam/assets/161221145423-cnn-heroes-thumb-elon-musk-full-169.jpg"
+    question: "Atlantic City is a popular entertainment destination located in what U.S. state?",
+    answerChoices: ["California", "Idaho", "Michigan", "New Jersey"],
+    userAnswer:3,
+    image: "https://s7.bluegreenvacations.com/is/image/BGV/cityscapes-atlantic-city-new-jersey-boardwalk-at-night-01?$bgv-gallery-main$"
     },
     {
-    question: "Question 2?",
-    answerChoices: ["Elon Musk", "Michael Jackson"],
+    question: "In what city is the historic Arcade shopping mall, which now houses micro-lofts along with its retail shops?",
+    answerChoices: ["Providence", "Charlotte", "Boston", "San Francisco"],
     userAnswer:0,
-    image: "https://cdn.cnn.com/cnnnext/dam/assets/161221145423-cnn-heroes-thumb-elon-musk-full-169.jpg"
+    image: "https://media-cdn.tripadvisor.com/media/photo-o/04/18/8b/74/providence-river-boat.jpg"
+    },
+    {
+    question: "How many U.S. states border the Gulf of Mexico?",
+    answerChoices: ["One", "Two", "Four", "Five"],
+    userAnswer:3,
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/US_map-Gulf_Coast.svg/1200px-US_map-Gulf_Coast.svg.png"
+    },
+    {
+    question: "Which U.S. state has the longest coastline?",
+    answerChoices: ["California", "Alaska", "Oregon", "Texas"],
+    userAnswer:1,
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Alaska_in_United_States_%28US50%29.svg/250px-Alaska_in_United_States_%28US50%29.svg.png"  
+    },
+    {
+    question: "In which state of the United States would you find Fort Knox?",
+    answerChoices: ["Tennessee", "Virginia", "Kentucky", "South Carolina"],
+    userAnswer:2,
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJj8HPsjGx4dqMMwUXQtTrNGh25h1vLYodGujs-25FBEtB1DjC"  
     }
 ];
 

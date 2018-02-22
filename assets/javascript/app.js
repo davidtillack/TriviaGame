@@ -73,7 +73,7 @@ function countDown(){
     initialTime--;
 
     if (initialTime === 0){
-        notAnswered++;
+        notAnswered++; 
         stopTimer();
         $("#time").html("<h3>Time's up!</h3>");
         $("#questions").hide();
@@ -81,9 +81,12 @@ function countDown(){
         $("h3").empty();
         $("#questions").empty();
         $("#userChoices").hide();
+
+        // Display to user once time is zero their stats
         $("#userStats").append("<h3> Correct Guesses: " + correctGuesses + "</h3>");
         $("#userStats").append("<h3> Incorrect Guesses: " + incorrectGuesses + "</h3>");
         $("#userStats").append("<h3> Questions Left Blank: " + notAnswered + "</h3>");
+    
         $("#restart").show();
 
         correctGuesses = 0;
@@ -112,6 +115,7 @@ function displayQuestion(){
     $("#questions").html("<h2>" + qPick.question + "</h2>");
     $("#userChoices").empty();
 
+// Create user's answer choices
     for (var i=0; i < qPick.answerChoices.length; i++){
         var userOptions = $("<button>");
         userOptions.addClass("userChoice");
@@ -123,7 +127,7 @@ function displayQuestion(){
 // Upon selecting an answer choice, tell the user if they're right or wrong and
 // add that to their user stats for the end
 $(".userChoice").on("click",function(){
-    userGuess = parseInt($(this).attr("guessedValue"));
+    userGuess = parseInt($(this).attr("guessedValue")); // Have to convert string to number
     console.log("This is user's guess: " + userGuess);
 
     if (userGuess === qPick.userAnswer){
@@ -157,10 +161,6 @@ $("#restart").on("click", function() {
     $("#userStats").empty();
     $("#restart").hide();
     $("#nextQ").hide();
-    
-    for (var i=0; i < questionBank.length; i++){
-        questionAssign.push(questionBank[i]);
-    };
 
     runTimer();
     displayQuestion();

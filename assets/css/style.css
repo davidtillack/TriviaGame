@@ -9,7 +9,6 @@
     top:0px;
     background-color:white;
     z-index:-1;
-
 }
 
 body{
@@ -50,7 +49,6 @@ button#start{
     margin:0 auto;
     display:inline-block;
     line-height:80px;
-
 }
 
 #time{
@@ -75,7 +73,6 @@ button#nextQ{
     color:black;
     margin:0 auto;
     display:inline-block;
-
 }
 
 h3{

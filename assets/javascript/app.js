@@ -12,52 +12,46 @@ var initialTime = 30;
 var userGuess = "";
 var clockRunning = false;
 var questionAssign = [];
+var qPick;
+var randomqPick;
 
 var questionBank = [
     { 
     question: "Atlantic City is a popular entertainment destination located in what U.S. state?",
     answerChoices: ["California", "Idaho", "Michigan", "New Jersey"],
     userAnswer:3,
-    image: "https://s7.bluegreenvacations.com/is/image/BGV/cityscapes-atlantic-city-new-jersey-boardwalk-at-night-01?$bgv-gallery-main$"
     },
     {
     question: "In what city is the historic Arcade shopping mall, which now houses micro-lofts along with its retail shops?",
     answerChoices: ["Providence", "Charlotte", "Boston", "San Francisco"],
     userAnswer:0,
-    image: "https://media-cdn.tripadvisor.com/media/photo-o/04/18/8b/74/providence-river-boat.jpg"
     },
     {
     question: "How many U.S. states border the Gulf of Mexico?",
     answerChoices: ["One", "Two", "Four", "Five"],
     userAnswer:3,
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/US_map-Gulf_Coast.svg/1200px-US_map-Gulf_Coast.svg.png"
     },
     {
     question: "Which U.S. state has the longest coastline?",
     answerChoices: ["California", "Alaska", "Oregon", "Texas"],
     userAnswer:1,
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Alaska_in_United_States_%28US50%29.svg/250px-Alaska_in_United_States_%28US50%29.svg.png"  
     },
     {
     question: "In which state of the United States would you find Fort Knox?",
     answerChoices: ["Tennessee", "Virginia", "Kentucky", "South Carolina"],
     userAnswer:2,
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJj8HPsjGx4dqMMwUXQtTrNGh25h1vLYodGujs-25FBEtB1DjC"  
     }
 ];
 
 // Game Code =========================================================================
 
-
+$("#restart").hide();
 // On the start button, start the timer and show the user the question(s)
 $("#start").on("click",function() {
-    $("#start").hide();
     displayQuestion();
     runTimer();
-    
-    for (var i=0; i< questionBank.length; i++){
-        questionAssign.push(questionBank[i]);
-    };
+    $("#start").hide();
+    $("#restart").show();
 });
 
 function runTimer(){
@@ -65,6 +59,7 @@ function runTimer(){
         intervalId = setInterval(countDown,1000);
     clockRunning = true;
     };
+    initialTime = 30;
 };
 
 function countDown(){
@@ -73,14 +68,73 @@ function countDown(){
     if (initialTime === 0){
         clockRunning = false;
         clearInterval(intervalId);
+        incorrectGuesses++;
         $("#time").html("<h3>Time's up!</h3>");
+        // gameStats();
     };
 };
 
+$("#restart").on("click", function() {
+    $("#questions").empty();
+    $("#userChoices").empty();
+    
+    for (var i=0; i < questionBank.length; i++){
+        questionAssign.push(questionBank[i]);
+    };
+
+    runTimer();
+    displayQuestion();
+});
+
+
 function displayQuestion(){
-    var randomqPick = Math.floor(Math.random()*questionBank.length);
-    var pick = questionBank[randomqPick];
-    $("#questions").html("<h2>" + pick.question + "</h2>");
-};
+    randomqPick = Math.floor(Math.random()*questionBank.length);
+    console.log("test" + randomqPick);
+    qPick = questionBank[randomqPick];
+    console.log("testA" + qPick);
+    console.log("the answer is: " + qPick.userAnswer);
+    
+    $("#questions").html("<h2>" + qPick.question + "</h2>");
+    $("#userChoices").empty();
+
+    for (var i=0; i < qPick.answerChoices.length; i++){
+    var userOptions = $("<button>");
+    userOptions.addClass("userChoice");
+    userOptions.html(qPick.answerChoices[i]);
+    userOptions.attr("guessedValue",i);
+    $("#userChoices").append(userOptions);
+    };
+
+$(".userChoice").on("click",function(){
+    userGuess = parseInt($(this).attr("guessedValue"));
+    console.log("This is user's guess: " + userGuess);
+    if (userGuess === qPick.userAnswer){
+        alert("testR");
+        // stop();
+        // correctGuesses++;
+        // userGuess="";
+        // alert("test");
+        // $("#userChoices").html("<p>Correct!</p>");
+    } else {
+        // stop();
+        // incorrectGuesses++;
+        // userGuess="";
+        alert("testW");
+        // $("#userChoices").html("<p> Wrong guess. Answer is: " + qPick.answerChoices[qPick.userAnswer] + "</p>");
+
+    };
+
+});
+
+}
+
+// function gameStats(){
+//     if (){
+
+//     } else {
+//         runTimer();
+//         displayQuestion();
+//     }
+// }
 
 });

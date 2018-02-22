@@ -1,12 +1,9 @@
 $(document).ready(function(){
 
 // Set Global Variables
-
-var wins = 0;
-var losses = 0;
-var gameNumber = 0;
 var correctGuesses = 0;
 var incorrectGuesses = 0;
+var notAnswered = 0;
 var intervalId;
 var initialTime = 30;
 var userGuess = "";
@@ -15,6 +12,8 @@ var questionAssign = [];
 var qPick;
 var randomqPick;
 
+
+// Trivia question bank
 var questionBank = [
     { 
     question: "Atlantic City is a popular entertainment destination located in what U.S. state?",
@@ -37,23 +36,30 @@ var questionBank = [
     userAnswer:1,
     },
     {
-    question: "In which state of the United States would you find Fort Knox?",
-    answerChoices: ["Tennessee", "Virginia", "Kentucky", "South Carolina"],
+    question: "Which is the world's highest mountain?",
+    answerChoices: ["Makalu", "K2", "Mount Everest", "Kilimanjaro"],
     userAnswer:2,
+    },
+    {
+    question: "How many Great Lakes are there?",
+    answerChoices: ["Seven", "Three", "Six", "Five"],
+    userAnswer:3,
     }
 ];
 
 // Game Code =========================================================================
 
 $("#restart").hide();
+$("#nextQ").hide();
 // On the start button, start the timer and show the user the question(s)
 $("#start").on("click",function() {
     displayQuestion();
     runTimer();
     $("#start").hide();
-    $("#restart").show();
+    $("#nextQ").show();
 });
 
+//Timer function
 function runTimer(){
     if (!clockRunning){
         intervalId = setInterval(countDown,1000);
@@ -62,32 +68,41 @@ function runTimer(){
     initialTime = 30;
 };
 
+// Count the timer down and set game for when timer reaches zero
 function countDown(){
     $("#time").html("<h3>Time left: " + initialTime + "</h3>");
     initialTime--;
+
     if (initialTime === 0){
-        clockRunning = false;
-        clearInterval(intervalId);
-        incorrectGuesses++;
+        stopTimer();
         $("#time").html("<h3>Time's up!</h3>");
-        // gameStats();
+        $("#questions").hide();
+        $("#nextQ").hide();
+        $("h3").empty();
+        $("#questions").empty();
+        $("#userChoices").hide();
+        $("#userStats").append("<h3> Correct Guesses: " + correctGuesses + "</h3>");
+        $("#userStats").append("<h3> Incorrect Guesses: " + incorrectGuesses + "</h3>");
+        $("#userStats").append("<h3> Blanks: " + notAnswered + "</h3>");
+        $("#restart").show();
+
+        correctGuesses = 0;
+        incorrectGuesses = 0;
+        notAnswered = 0;
     };
 };
 
-$("#restart").on("click", function() {
-    $("#questions").empty();
-    $("#userChoices").empty();
-    
-    for (var i=0; i < questionBank.length; i++){
-        questionAssign.push(questionBank[i]);
-    };
+// stopTimer function for when time runs out
+function stopTimer (){
+    clockRunning = false;
+    clearInterval(intervalId);
+}
 
-    runTimer();
-    displayQuestion();
-});
-
-
+// Display question function which contains the question and answer choices and sets the game logic for 
+//correct and incorrect question answering.
 function displayQuestion(){
+    $("#userChoices").show();
+    $("#nextQ").show();
     randomqPick = Math.floor(Math.random()*questionBank.length);
     console.log("test" + randomqPick);
     qPick = questionBank[randomqPick];
@@ -105,36 +120,48 @@ function displayQuestion(){
     $("#userChoices").append(userOptions);
     };
 
+// Upon selecting an answer choice, tell the user if they're right or wrong and
+// add that to their user stats for the end
 $(".userChoice").on("click",function(){
     userGuess = parseInt($(this).attr("guessedValue"));
     console.log("This is user's guess: " + userGuess);
+    
     if (userGuess === qPick.userAnswer){
-        alert("testR");
-        // stop();
-        // correctGuesses++;
-        // userGuess="";
-        // alert("test");
-        // $("#userChoices").html("<p>Correct!</p>");
+        correctGuesses++;
+        userGuess="";
+        $("#userChoices").html("<p>Correct! Click Next Question</p>");
+        $("#nextQ").show();
+
     } else {
-        // stop();
-        // incorrectGuesses++;
-        // userGuess="";
-        alert("testW");
-        // $("#userChoices").html("<p> Wrong guess. Answer is: " + qPick.answerChoices[qPick.userAnswer] + "</p>");
-
-    };
-
+        incorrectGuesses++; 
+        userGuess="";
+        $("#userChoices").html("<p>Incorrect! Click Next Question</p>");
+        $("#nextQ").show();
+    }
 });
-
 }
 
-// function gameStats(){
-//     if (){
 
-//     } else {
-//         runTimer();
-//         displayQuestion();
-//     }
-// }
+// Display next question function
+$("#nextQ").on("click", function(){
+    displayQuestion();
+    $("#restart").hide();
+});
+
+// Restart game function
+$("#restart").on("click", function() {
+    $("#questions").empty();
+    $("#userChoices").empty();
+    $("#questions").show();
+    $("#userStats").empty();
+    $("#restart").hide();
+    
+    for (var i=0; i < questionBank.length; i++){
+        questionAssign.push(questionBank[i]);
+    };
+
+    runTimer();
+    displayQuestion();
+});
 
 });
